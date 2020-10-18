@@ -11,8 +11,17 @@ const taskStatuses = ['running', 'successed', 'failed']
 class ProcessesController {
     async getProcesses(req, res) {
         try {
-            const processes = await Process.find()
-            res.status(200).send(processes);
+            const processesWithTasks = await Process.aggregate([
+                {
+                    $lookup: {
+                        from: 'tasks',
+                        localField: '_id',
+                        foreignField: 'processId',
+                        as: 'jobs'
+                    }
+                }
+            ])
+            res.status(200).send(processesWithTasks);
         } catch (e) {
             res.status(400).send(e);
         }
