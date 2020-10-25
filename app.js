@@ -8,8 +8,9 @@ const app = express();
 
 dotenv.config();
 
-mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true }, () =>
-    console.log('connected to MongoDB'),
+mongoose.connect('mongodb+srv://dbUser:taskmanagertest@cluster0.mctsk.mongodb.net/TASKMANAGER?retryWrites=true&w=majority',
+    { useNewUrlParser: true, useUnifiedTopology: true }, () =>
+            console.log('connected to MongoDB'),
 );
 
 app.use(cors());
@@ -17,4 +18,4 @@ app.use(express.json());
 
 rootRouter(app);
 
-app.listen(process.env.PORT, () => console.log('Server up'));
+app.listen(8000, () => console.log('Server up'));
